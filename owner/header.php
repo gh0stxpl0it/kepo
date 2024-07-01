@@ -23,6 +23,25 @@
             }
         });
     </script>
+    <style>
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            .logo {
+                text-align: center; /* Center align the logo for mobile screens */
+            }
+
+            .logo img {
+                width: 80%; /* Adjust logo size for smaller screens */
+            }
+        }
+
+        /* Maintain current desktop behavior */
+        @media (min-width: 769px) {
+            .logo img {
+                width: 100%; /* Adjust logo size for desktop screens */
+            }
+        }
+    </style>
     <!-- CSS Files -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/atlantis.min.css">

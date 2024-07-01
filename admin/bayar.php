@@ -2,26 +2,49 @@
 $title = 'Pembayaran';
 require 'koneksi.php';
 
-$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
+// Set timezone to Indonesia (WIB)
+date_default_timezone_set('Asia/Jakarta');
+
+// Fetch transaction details
+$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, transaksi.pajak, transaksi.diskon FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
 $data = mysqli_fetch_assoc($query);
 
-if (isset($_POST['btn-simpan'])) {
-    $total_bayar = $_POST['total_bayar'];
-    if ($total_bayar >= $data['total_harga']) {
-        $query = "UPDATE transaksi SET status_bayar = 'dibayar', tgl_pembayaran = '" . date('Y-m-d h:i:s') . "' WHERE id_transaksi = " . $_GET['id'];
-        $query2 = "UPDATE detail_transaksi SET total_bayar = '$total_bayar' WHERE id_transaksi = " . $_GET['id'];
+// Calculate total to be paid
+$pajak = $data['pajak'];
+$diskon = $data['diskon'];
+$biaya_tambahan = $data['biaya_tambahan'];
+$total_harga = $data['total_harga'];
+$total_bayar = ($total_harga + $pajak + $biaya_tambahan) * (1 - $diskon);
 
+// Process payment submission
+if (isset($_POST['btn-simpan'])) {
+    $jumlah_bayar = $_POST['total_bayar'];
+    if ($jumlah_bayar >= $total_bayar) {
+        // Update transactions
+        $query = "UPDATE transaksi SET status_bayar = 'dibayar', tgl_pembayaran = '" . date('Y-m-d H:i:s') . "' WHERE id_transaksi = " . $_GET['id'];
+        $query2 = "UPDATE detail_transaksi SET total_bayar = '$jumlah_bayar' WHERE id_transaksi = " . $_GET['id'];
+
+        // Perform database updates
         $insert = mysqli_query($conn, $query);
         $insert2 = mysqli_query($conn, $query2);
-        if ($insert == 1 && $insert2 == 1) {
-            echo "<script>alert('OK');</script>";
-            header('location: transaksi_dibayar.php?id=' . $_GET['id']);
+
+        // Check if both updates were successful
+        if ($insert && $insert2) {
+            // Set success message
+            $_SESSION['msg'] = 'Pembayaran berhasil.';
+            header('location: ./transaksi_dibayar.php?id=' . $_GET['id']);
+            exit(); // Ensure no further output after redirection
         } else {
-            echo "<div class='alert alert-danger'>Gagal Tambah Data!!!</div>";
+            // Handle database error
+            $_SESSION['msg'] = 'Gagal mengupdate data.';
+            header('location: ./bayar.php?id=' . $_GET['id']);
+            exit();
         }
     } else {
+        // Insufficient payment amount
         $msg = "Jumlah Uang Pembayaran Kurang";
-        header('location:bayar.php?id=' . $_GET['id'] . '&msg=' . $msg);
+        header('location: ./bayar.php?id=' . $_GET['id'] . '&msg=' . $msg);
+        exit();
     }
 }
 
@@ -72,27 +95,26 @@ require 'header.php';
                     <form action="bayar.php?id=<?= $data['id_transaksi']; ?>" id="form-submit" method="POST">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="largeInput">Kode Invoice</label>
-                                <input type="text" name="kode_invoice" class="form-control form-control" id="defaultInput" value="<?= $data['kode_invoice']; ?>" readonly>
+                                <label for="kode_invoice">Kode Invoice</label>
+                                <input type="text" name="kode_invoice" class="form-control" id="kode_invoice" value="<?= $data['kode_invoice']; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Nama Pelanggan</label>
-                                <input type="text" name="nama_pelanggan" class="form-control form-control" id="defaultInput" value="<?= $data['nama_pelanggan']; ?>" readonly>
+                                <label for="nama_pelanggan">Nama Pelanggan</label>
+                                <input type="text" name="nama_pelanggan" class="form-control" id="nama_pelanggan" value="<?= $data['nama_pelanggan']; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Total Yang Harus Dibayarkan</label>
-                                <input type="text" name="total_harga" class="form-control form-control" id="defaultInput" value="<?= 'Rp ' . number_format($data['total_harga']); ?>" readonly>
+                                <label for="total_harga">Total Yang Harus Dibayarkan</label>
+                                <input type="text" name="total_harga" class="form-control" id="total_harga" value="<?= 'Rp ' . number_format($total_bayar); ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Masukan Jumlah Pembayaran</label>
-                                <input type="number" name="total_bayar" id="total_bayar" class="form-control form-control" id="defaultInput" value="">
+                                <label for="total_bayar">Masukan Jumlah Pembayaran</label>
+                                <input type="number" name="total_bayar" id="total_bayar" class="form-control" value="<?= $total_bayar; ?>">
                                 <?php if (isset($_GET['msg'])) : ?>
                                     <small class="text-danger"><?= $_GET['msg'] ?></small>
                                 <?php endif ?>
                             </div>
                             <div class="card-action">
                                 <button type="submit" name="btn-simpan" class="btn btn-success">Submit</button>
-                                <!-- <button class="btn btn-danger">Cancel</button> -->
                                 <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Batal</a>
                             </div>
                     </form>

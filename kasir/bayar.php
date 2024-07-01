@@ -95,27 +95,26 @@ require 'header.php';
                     <form action="bayar.php?id=<?= $data['id_transaksi']; ?>" id="form-submit" method="POST">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="largeInput">Kode Invoice</label>
-                                <input type="text" name="kode_invoice" class="form-control form-control" id="defaultInput" value="<?= $data['kode_invoice']; ?>" readonly>
+                                <label for="kode_invoice">Kode Invoice</label>
+                                <input type="text" name="kode_invoice" class="form-control" id="kode_invoice" value="<?= $data['kode_invoice']; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Nama Pelanggan</label>
-                                <input type="text" name="nama_pelanggan" class="form-control form-control" id="defaultInput" value="<?= $data['nama_pelanggan']; ?>" readonly>
+                                <label for="nama_pelanggan">Nama Pelanggan</label>
+                                <input type="text" name="nama_pelanggan" class="form-control" id="nama_pelanggan" value="<?= $data['nama_pelanggan']; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Total Yang Harus Dibayarkan</label>
-                                <input type="text" name="total_harga" class="form-control form-control" id="defaultInput" value="<?= 'Rp ' . number_format($total_bayar); ?>" readonly>
+                                <label for="total_harga">Total Yang Harus Dibayarkan</label>
+                                <input type="text" name="total_harga" class="form-control" id="total_harga" value="<?= 'Rp ' . number_format($total_bayar); ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Masukan Jumlah Pembayaran</label>
-                                <input type="number" name="total_bayar" id="total_bayar" class="form-control form-control" id="defaultInput" value="">
+                                <label for="total_bayar">Masukan Jumlah Pembayaran</label>
+                                <input type="number" name="total_bayar" id="total_bayar" class="form-control" value="<?= $total_bayar; ?>">
                                 <?php if (isset($_GET['msg'])) : ?>
                                     <small class="text-danger"><?= $_GET['msg'] ?></small>
                                 <?php endif ?>
                             </div>
                             <div class="card-action">
                                 <button type="submit" name="btn-simpan" class="btn btn-success">Submit</button>
-                                <!-- <button class="btn btn-danger">Cancel</button> -->
                                 <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Batal</a>
                             </div>
                     </form>

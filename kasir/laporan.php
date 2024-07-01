@@ -2,9 +2,16 @@
 $title = 'Data Laporan';
 require 'koneksi.php';
 
+if (!isset($_SESSION['outlet_id'])) {
+    // Redirect atau tindakan lain sesuai kebijakan aplikasi jika session outlet_id tidak tersedia
+    header('Location: ./');
+    exit(); // Pastikan exit setelah melakukan redirect
+}
+
 $id_outlet = $_SESSION['outlet_id'];
 
-$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar, outlet.nama_outlet 
+$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar, outlet.nama_outlet,
+          transaksi.biaya_tambahan, transaksi.pajak, transaksi.diskon
           FROM transaksi 
           INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan 
           INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi 
@@ -63,6 +70,7 @@ require 'header.php';
                                 $no = 1;
                                 if (mysqli_num_rows($data) > 0) {
                                     while ($trans = mysqli_fetch_assoc($data)) {
+                                        $total = ($trans['total_harga'] + $trans['biaya_tambahan'] + $trans['pajak']) * (1 - $trans['diskon']);
                                 ?>
 
                                         <tr>
@@ -71,7 +79,7 @@ require 'header.php';
                                             <td><?= $trans['nama_pelanggan']; ?></td>
                                             <td><?= $trans['status']; ?></td>
                                             <td><?= $trans['status_bayar']; ?></td>
-                                            <td><?= 'Rp ' . number_format($trans['total_bayar']); ?></td>
+                                            <td><?= 'Rp ' . number_format($total); ?></td>
                                             <td><?= $trans['nama_outlet']; ?></td>
                                         </tr>
                                 <?php }

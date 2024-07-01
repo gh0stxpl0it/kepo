@@ -89,10 +89,17 @@ require 'header.php';
                                         $whatsapp_message = "```Halo Kak ```" . $trans['nama_pelanggan'] . ",\n\n"
                                                          . "```Berikut detail transaksi Kaka:```\n\n"
                                                          . "```Kode Invoice:``` *" . $trans['kode_invoice'] . "*\n"
-                                                         . "```Total:``` Rp *" . number_format($total) . "*\n"
-                                                         . "```Status:``` *" . $trans['status'] . "*\n"
-                                                         . "```Pembayaran:``` *" . $trans['status_bayar'] . "*\n\n"
-                                                         . "```Tanggal Pembayaran:``` *" . $trans['tgl_pembayaran_formatted'] . "*";
+                                                         . "```Total:``` Rp *" . number_format($total) . "*\n";
+                                        
+                                        if ($trans['status_bayar'] == 'Dibayar') {
+                                            $whatsapp_message .= "```Status:``` *Pesanan Anda telah " . $trans['status'] . " Dan Sudah bisa diambil.*\n"
+                                                              . "```Pembayaran:``` *Sudah Dibayar*\n";
+                                        } else {
+                                            $whatsapp_message .= "```Status:``` *Pesanan Anda " . $trans['status'] . "*\n"
+                                                              . "```Pembayaran:``` *Belum Dibayar*\n";
+                                        }
+                                        $whatsapp_message .= "```Tanggal Pembayaran:``` *" . $trans['tgl_pembayaran_formatted'] . "*";
+
                                         // Generate WhatsApp link
                                         $whatsapp_link = "https://api.whatsapp.com/send?phone={$trans['telp_pelanggan']}&text=" . urlencode($whatsapp_message);
                                 ?>

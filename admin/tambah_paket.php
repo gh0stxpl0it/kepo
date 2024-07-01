@@ -63,12 +63,9 @@ require 'header.php'
                             <div class="form-group">
                                 <label for="defaultSelect">Jenis Paket</label>
                                 <select name="jenis_paket" class="form-control form-control" id="defaultSelect">
-                                    <option value="kiloan">Kiloan</option>
-                                    <option value="selimut">Selimut</option>
-                                    <option value="bedcover">Bedcover</option>
-                                    <option value="kiloan">Kiloan</option>
-                                    <option value="kaos">Kaos</option>
-                                    <option value="lain">Lain</option>
+                                    <option value="Paket Normal">Paket Normal</option>
+                                    <option value="Paket Besok Ambil [ PAGI ANTAR BESOK SORE DI AMBIL ]">Paket Besok Ambil [ PAGI ANTAR BESOK SORE DI AMBIL ]</option>
+                                    <option value="Paket 1 Hari Selesai [ PAGI ANTAR SORE DI AMBIL ]">Paket 1 Hari Selesai [ PAGI ANTAR SORE DI AMBIL ]</option>
                                 </select>
                             </div>
                             <div class="form-group">

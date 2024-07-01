@@ -3,8 +3,10 @@ $title = 'Pembayaran';
 require 'koneksi.php';
 require 'header.php';
 
-$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
+$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar, transaksi.pajak, transaksi.biaya_tambahan, transaksi.diskon FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
 $data = mysqli_fetch_assoc($query);
+
+$total_pembayaran = ($data['total_harga'] + $data['pajak'] + $data['biaya_tambahan']) * (1 - $data['diskon']);
 
 ?>
 <div class="content">
@@ -34,9 +36,9 @@ $data = mysqli_fetch_assoc($query);
                                         <h2><strong> <?= $data['nama_pelanggan'] ?></strong></h2>
                                         <h4> Berhasil Di Bayar</h4>
                                         <h3><strong>Kode Invoice <?= $data['kode_invoice'] ?></strong><br><br></h3>
-                                        <h3><strong>Total Pembayaran <?= 'Rp ' . number_format($data['total_harga']); ?></strong><br></h3>
+                                        <h3><strong>Total Pembayaran <?= 'Rp ' . number_format($total_pembayaran); ?></strong><br></h3>
                                         <h3><strong>Total Uang Bayar <?= 'Rp ' . number_format($data['total_bayar']); ?></strong><br></h3>
-                                        <h3><strong>Kembalian <?= 'Rp ' . number_format($data['total_bayar'] - $data['total_harga']); ?></strong><br><br></h3>
+                                        <h3><strong>Kembalian <?= 'Rp ' . number_format($data['total_bayar'] - $total_pembayaran); ?></strong><br><br></h3>
                                         <a href="transaksi.php" class="btn btn-primary">Kembali Ke Menu Utama</a>
                                     </div>
                                 </div>

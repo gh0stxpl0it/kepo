@@ -2,7 +2,13 @@
 $title = 'Data Pengguna';
 require 'koneksi.php';
 
-$data = mysqli_query($conn, 'SELECT * FROM user ORDER BY role desc');
+// Query to fetch data with outlet name joined from outlet table
+$query = "SELECT u.*, o.nama_outlet 
+          FROM user u 
+          LEFT JOIN outlet o ON u.outlet_id = o.id_outlet 
+          ORDER BY u.role DESC";
+
+$data = mysqli_query($conn, $query);
 
 require 'header.php';
 ?>
@@ -23,8 +29,7 @@ require 'header.php';
     </div>
 </div>
 <div class="page-inner mt--5">
-
-    <diva class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -45,6 +50,7 @@ require 'header.php';
                                     <th>Nama</th>
                                     <th>Username</th>
                                     <th>Role</th>
+                                    <th>Nama Outlet</th>
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
@@ -60,12 +66,7 @@ require 'header.php';
                                             <td><?= $user['nama_user']; ?></td>
                                             <td><?= $user['username']; ?></td>
                                             <td><?= $user['role']; ?></td>
-                                            <!-- <td><?php if ($user['jenis_kelamin'] == 'L') {
-                                                            echo "Laki-laki";
-                                                        } else {
-                                                            echo "Perempuan";
-                                                        } ?>
-                                            </td> -->
+                                            <td><?= !empty($user['nama_outlet']) ? $user['nama_outlet'] : '<span class="text-danger">Belum Ditentukan</span>'; ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a href="edit_pengguna.php?id=<?= $user['id_user']; ?>" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
@@ -78,6 +79,8 @@ require 'header.php';
                                             </td>
                                         </tr>
                                 <?php }
+                                } else {
+                                    echo '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
                                 }
                                 ?>
                             </tbody>
@@ -86,9 +89,9 @@ require 'header.php';
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-</div>
-</div>
 <?php
 require 'footer.php';
 ?>

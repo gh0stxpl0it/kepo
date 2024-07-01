@@ -1,48 +1,70 @@
 <?php
-
 $title = 'Selamat Datang Di Mikada Laundry';
 require 'koneksi.php';
 require 'header.php';
 
-setlocale(LC_ALL, 'id_ID');
+setlocale(LC_ALL, 'id_id');
 setlocale(LC_TIME, 'id_ID.utf8');
 
-// Pastikan koneksi berhasil
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
-}
+$query = mysqli_query($conn, "SELECT COUNT(id_transaksi) as jumlah_transaksi FROM transaksi");
+$jumlah_transaksi = mysqli_fetch_assoc($query);
 
-// Menjalankan kueri dan mengambil hasil
-function fetchData($conn, $query) {
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Error dalam eksekusi kueri: " . mysqli_error($conn));
-    }
-    return mysqli_fetch_assoc($result);
-}
+$query2 = mysqli_query($conn, "SELECT COUNT(id_pelanggan) as jumlah_pelanggan FROM pelanggan");
+$jumlah_pelanggan = mysqli_fetch_assoc($query2);
 
-$jumlah_transaksi = fetchData($conn, "SELECT COUNT(id_transaksi) as jumlah_transaksi FROM transaksi");
+$query3 = mysqli_query($conn, "SELECT COUNT(id_outlet) as jumlah_outlet FROM outlet");
+$jumlah_outlet = mysqli_fetch_assoc($query3);
 
-$jumlah_pelanggan = fetchData($conn, "SELECT COUNT(id_pelanggan) as jumlah_pelanggan FROM pelanggan");
+$query4 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as total_penghasilan 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar'");
+$total_penghasilan = mysqli_fetch_assoc($query4);
 
-$jumlah_outlet = fetchData($conn, "SELECT COUNT(id_outlet) as jumlah_outlet FROM outlet");
+$query5 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_tahun 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND YEAR(transaksi.tgl_pembayaran) = YEAR(NOW())");
+$penghasilan_tahun = mysqli_fetch_assoc($query5);
 
-$total_penghasilan = fetchData($conn, "SELECT SUM(total_bayar) as total_penghasilan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar'");
+$query6 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_bulan 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND MONTH(transaksi.tgl_pembayaran) = MONTH(NOW())");
+$penghasilan_bulan = mysqli_fetch_assoc($query6);
 
-$penghasilan_tahun = fetchData($conn, "SELECT SUM(total_bayar) as penghasilan_tahun FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND YEAR(tgl_pembayaran) = YEAR(NOW())");
+$query7 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_minggu 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND WEEK(transaksi.tgl_pembayaran) = WEEK(NOW())");
+$penghasilan_minggu = mysqli_fetch_assoc($query7);
 
-$penghasilan_bulan = fetchData($conn, "SELECT SUM(total_bayar) as penghasilan_bulan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND MONTH(tgl_pembayaran) = MONTH(NOW())");
-
-$penghasilan_minggu = fetchData($conn, "SELECT SUM(total_bayar) as penghasilan_minggu FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND WEEK(tgl_pembayaran) = WEEK(NOW())");
+$bulanIndonesia = array(
+    1 => 'Januari',
+    2 => 'Februari',
+    3 => 'Maret',
+    4 => 'April',
+    5 => 'Mei',
+    6 => 'Juni',
+    7 => 'Juli',
+    8 => 'Agustus',
+    9 => 'September',
+    10 => 'Oktober',
+    11 => 'November',
+    12 => 'Desember'
+);
 ?>
-
 
 <div class="panel-header bg-secondary-gradient">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
                 <h1 class="text-white pb-2 fw-bold"><?= $title; ?></h1>
-                <h2 class="text-white op-7 mb-2">Kasir Dashboard</h2>
+                <h2 class="text-white op-7 mb-2">Admin Dashboard</h2>
             </div>
         </div>
     </div>
@@ -145,7 +167,7 @@ $penghasilan_minggu = fetchData($conn, "SELECT SUM(total_bayar) as penghasilan_m
             <div class="card card-dark bg-secondary-gradient">
                 <div class="card-body bubble-shadow">
                     <h1><?= 'Rp ' . number_format($penghasilan_bulan['penghasilan_bulan']); ?></h1>
-                    <h5 class="op-8">Penghasilan Bulan <?= strftime('%B'); ?></h5>
+                    <h5 class="op-8">Penghasilan Bulan <?= $bulanIndonesia[date('n')]; ?></h5>
                     <div class="pull-right">
                         <h3 class="fw-bold op-8">
                             <hr>
@@ -168,7 +190,6 @@ $penghasilan_minggu = fetchData($conn, "SELECT SUM(total_bayar) as penghasilan_m
             </div>
         </div>
     </div>
-
 
 </div>
 </div>

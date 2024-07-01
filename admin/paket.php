@@ -25,7 +25,7 @@ require 'header.php';
 </div>
 <div class="page-inner mt--5">
 
-    <diva class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -62,20 +62,21 @@ require 'header.php';
                                             <td><?= $paket['nama_paket']; ?></td>
                                             <td><?= $paket['jenis_paket']; ?></td>
                                             <td><?= 'Rp ' . number_format($paket['harga']); ?></td>
-                                            <td><?= $paket['nama_outlet']; ?>
-                                            </td>
+                                            <td><?= $paket['nama_outlet']; ?></td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    <a href="edit_paket.php?id=<?= $paket['id_paket']; ?>" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
+                                                    <a href="edit_paket.php?id=<?= $paket['id_paket']; ?>" type="button" data-toggle="tooltip" title="Edit" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <!-- <a href="hapus_paket.php?id=<?= $paket['id_paket']; ?>" onclick="return confirm('Yakin hapus data?');" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Hapus">
+                                                    <a href="hapus_paket.php?id=<?= $paket['id_paket']; ?>" onclick="return confirm('Yakin hapus data?');" type="button" data-toggle="tooltip" title="Hapus" class="btn btn-link btn-danger" data-original-title="Hapus">
                                                         <i class="fa fa-times"></i>
-                                                    </a> -->
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
                                 <?php }
+                                } else {
+                                    echo '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
                                 }
                                 ?>
                             </tbody>
@@ -84,6 +85,7 @@ require 'header.php';
                 </div>
             </div>
         </div>
+    </div>
 
 </div>
 </div>

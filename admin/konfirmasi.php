@@ -2,8 +2,15 @@
 $title = 'Konfirmasi Pembayaran';
 require 'koneksi.php';
 
-$data = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.status_bayar = 'belum'");
+$id_outlet = $_SESSION['outlet_id'];
 
+// Ubah query untuk memeriksa transaksi yang hanya terkait dengan outlet yang sedang aktif
+$data = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, transaksi.biaya_tambahan, transaksi.pajak, transaksi.diskon 
+                            FROM transaksi 
+                            INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan 
+                            INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi 
+                            WHERE transaksi.status_bayar = 'belum' 
+                            AND transaksi.outlet_id = '$id_outlet'");
 require 'header.php';
 ?>
 
@@ -23,8 +30,7 @@ require 'header.php';
     </div>
 </div>
 <div class="page-inner mt--5">
-
-    <diva class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -50,6 +56,8 @@ require 'header.php';
                                 $no = 1;
                                 if (mysqli_num_rows($data) > 0) {
                                     while ($trans = mysqli_fetch_assoc($data)) {
+                                        // Hitung total berdasarkan formula yang diberikan
+                                        $total = ($trans['total_harga'] + $trans['biaya_tambahan'] + $trans['pajak']) * (1 - ($trans['diskon']));
                                 ?>
 
                                         <tr>
@@ -57,7 +65,7 @@ require 'header.php';
                                             <td><?= $trans['kode_invoice']; ?></td>
                                             <td><?= $trans['nama_pelanggan']; ?></td>
                                             <td><?= $trans['status']; ?></td>
-                                            <td><?= 'Rp ' . number_format($trans['total_harga']); ?></td>
+                                            <td><?= 'Rp ' . number_format($total); ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a href="bayar.php?id=<?= $trans['id_transaksi']; ?>" type="button" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Detail">
@@ -67,6 +75,8 @@ require 'header.php';
                                             </td>
                                         </tr>
                                 <?php }
+                                } else {
+                                    echo '<tr><td colspan="6">Tidak ada transaksi yang perlu dikonfirmasi pembayarannya.</td></tr>';
                                 }
                                 ?>
                             </tbody>
@@ -75,9 +85,9 @@ require 'header.php';
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-</div>
-</div>
 <?php
 require 'footer.php';
 ?>

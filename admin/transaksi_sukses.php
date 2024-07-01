@@ -3,9 +3,24 @@ $title = 'Transaksi Sukses';
 require 'koneksi.php';
 require 'header.php';
 
-$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id'];
+$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga 
+          FROM transaksi 
+          INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan 
+          INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi 
+          WHERE transaksi.id_transaksi = " . $_GET['id'];
+
 $transaksi = mysqli_query($conn, $query);
 $data = mysqli_fetch_assoc($transaksi);
+
+// Ambil biaya tambahan, pajak, dan diskon dari transaksi
+$biaya_tambahan = $data['biaya_tambahan'];
+$pajak = $data['pajak'];
+$diskon = $data['diskon']; // diskon dalam persen
+
+// Hitung total pembayaran sesuai rumus yang diberikan
+$total_harga = $data['total_harga'];
+$total_pembayaran = ($total_harga + $biaya_tambahan + $pajak) * (1 - ($diskon));
+
 ?>
 <div class="content">
     <div class="page-inner">
@@ -34,7 +49,7 @@ $data = mysqli_fetch_assoc($transaksi);
                                         <h2><strong><?= $data['nama_pelanggan'] ?> </strong></h2>
                                         <h3>Berhasil Di Simpan</h3>
                                         <h3><strong>Kode Invoice <?= $data['kode_invoice'] ?></strong><br></h3>
-                                        <h3><strong>Total Pembayaran <?= $data['total_harga'] ?></strong><br><br></h3>
+                                        <h3><strong>Total Pembayaran <?= number_format($total_pembayaran) ?></strong><br><br></h3>
                                         <a href="transaksi.php" class="btn btn-primary col-md-4 ml-auto mr-auto">Kembali Ke Menu Utama</a>
                                     </div>
                                 </div>

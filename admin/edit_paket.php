@@ -3,11 +3,9 @@ $title = 'Edit Data Paket';
 require 'koneksi.php';
 
 $jenis = [
-    'kiloan',
-    'selimut',
-    'bedcover',
-    'kaos',
-    'lain'
+    'Paket Normal',
+    'Paket Besok Ambil [ PAGI ANTAR BESOK SORE DI AMBIL ]',
+    'Paket 1 Hari Selesai [ PAGI ANTAR SORE DI AMBIL ]',
 ];
 
 $id = $_GET['id'];
@@ -63,21 +61,18 @@ require 'header.php';
                     <div class="card-header">
                         <div class="card-title"><?= $title; ?></div>
                     </div>
-                    <?php while ($edit = mysqli_fetch_assoc($queryedit)) { ?>
+                    <?php if ($edit = mysqli_fetch_assoc($queryedit)) { ?>
                         <form action="" method="POST">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="largeInput">Nama Paket</label>
-                                    <input type="text" name="nama_paket" class="form-control form-control" id="defaultInput" value="<?= $edit['nama_paket']; ?>" placeholder="Paket...">
+                                    <input type="text" name="nama_paket" class="form-control" id="defaultInput" value="<?= $edit['nama_paket']; ?>" placeholder="Paket...">
                                 </div>
                                 <div class="form-group">
                                     <label for="defaultSelect">Jenis Paket</label>
-                                    <select name="jenis_paket" class="form-control form-control" id="defaultSelect">
+                                    <select name="jenis_paket" class="form-control" id="defaultSelect">
                                         <?php foreach ($jenis as $key) : ?>
-                                            <?php if ($key == $edit['jenis_paket']) : ?>
-                                                <option value="<?= $key ?>" selected><?= $key ?></option>
-                                            <?php endif ?>
-                                            <option value="<?= $key ?>"><?= ucfirst($key) ?></option>
+                                            <option value="<?= $key ?>" <?= ($key == $edit['jenis_paket']) ? 'selected' : '' ?>><?= ucfirst($key) ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
@@ -102,29 +97,28 @@ require 'header.php';
                                             }
                                             return $hasil;
                                         }
+                                        return [];
                                     }
                                     $query2 = "SELECT * FROM outlet";
                                     $data2 = ambildata($conn, $query2);
                                     ?>
-                                    <select name="outlet_id" class="form-control form-control" id="defaultSelect">
+                                    <select name="outlet_id" class="form-control" id="defaultSelect">
                                         <?php foreach ($data2 as $outlet) : ?>
-                                            <?php if ($data2['id_outlet'] == $edit['outlet_id']) : ?>
-                                                <option value="<?= $outlet['id_outlet'] ?>" selected><?= $outlet['nama_outlet']; ?></option>
-                                            <?php endif ?>
-                                            <option value="<?= $outlet['id_outlet'] ?>"><?= $outlet['nama_outlet']; ?></option>
+                                            <option value="<?= $outlet['id_outlet'] ?>" <?= ($outlet['id_outlet'] == $edit['outlet_id']) ? 'selected' : '' ?>><?= $outlet['nama_outlet']; ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
                                 <div class="card-action">
                                     <button type="submit" name="btn-simpan" class="btn btn-success">Submit</button>
-                                    <!-- <button class="btn btn-danger">Cancel</button> -->
                                     <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Batal</a>
                                 </div>
                         </form>
+                    <?php } else { ?>
+                        <p>Data tidak ditemukan!</p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?php } ?>
 <?php require 'footer.php'; ?>

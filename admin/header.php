@@ -23,6 +23,27 @@
             }
         });
     </script>
+    
+    <style>
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            .logo {
+                text-align: center; /* Center align the logo for mobile screens */
+            }
+
+            .logo img {
+                width: 80%; /* Adjust logo size for smaller screens */
+            }
+        }
+
+        /* Maintain current desktop behavior */
+        @media (min-width: 769px) {
+            .logo img {
+                width: 100%; /* Adjust logo size for desktop screens */
+            }
+        }
+    </style>
+    
     <!-- CSS Files -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/atlantis.min.css">
@@ -40,6 +61,7 @@
                 <a href="./" class="logo">
                     <img style="width: 80%;" src="../assets/img/mikada Laundry.png" alt="navbar brand" class="navbar-brand">
                 </a>
+
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                         <i class="icon-menu"></i>

@@ -1,24 +1,35 @@
-[29-Jun-2024 13:11:31 UTC] PHP Deprecated:  Function strftime() is deprecated in /home/kkjlozhk/public_html/admin/index.php on line 139
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:35 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:41 UTC] PHP Warning:  Undefined array key "jenis_kelamin" in /home/kkjlozhk/public_html/admin/pengguna.php on line 63
-[29-Jun-2024 13:11:59 UTC] PHP Deprecated:  Function strftime() is deprecated in /home/kkjlozhk/public_html/admin/index.php on line 139
-[29-Jun-2024 13:13:16 UTC] PHP Deprecated:  Function strftime() is deprecated in /home/kkjlozhk/public_html/admin/index.php on line 139
-[29-Jun-2024 13:18:28 UTC] PHP Deprecated:  Function strftime() is deprecated in /home/kkjlozhk/public_html/admin/index.php on line 139
+[30-Jun-2024 17:00:08 UTC] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/kkjlozhk/public_html/admin/index.php on line 169
+[30-Jun-2024 17:02:17 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in /home/kkjlozhk/public_html/admin/detail.php on line 158
+[30-Jun-2024 17:02:20 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home/kkjlozhk/public_html/admin/koneksi.php on line 2
+[30-Jun-2024 17:02:20 UTC] PHP Warning:  Undefined global variable $_SESSION in /home/kkjlozhk/public_html/admin/koneksi.php on line 3
+[30-Jun-2024 17:02:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/kkjlozhk/public_html/admin/print_invoice.php:1) in /home/kkjlozhk/public_html/admin/koneksi.php on line 9
+[30-Jun-2024 17:02:30 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home/kkjlozhk/public_html/admin/koneksi.php on line 2
+[30-Jun-2024 17:02:30 UTC] PHP Warning:  Undefined global variable $_SESSION in /home/kkjlozhk/public_html/admin/koneksi.php on line 3
+[30-Jun-2024 17:02:30 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/kkjlozhk/public_html/admin/print_invoice.php:1) in /home/kkjlozhk/public_html/admin/koneksi.php on line 9
+[30-Jun-2024 17:02:35 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home/kkjlozhk/public_html/admin/koneksi.php on line 2
+[30-Jun-2024 17:02:35 UTC] PHP Warning:  Undefined global variable $_SESSION in /home/kkjlozhk/public_html/admin/koneksi.php on line 3
+[30-Jun-2024 17:02:35 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/kkjlozhk/public_html/admin/print_invoice.php:1) in /home/kkjlozhk/public_html/admin/koneksi.php on line 9
+[30-Jun-2024 17:19:56 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home/kkjlozhk/public_html/admin/koneksi.php on line 2
+[30-Jun-2024 17:19:56 UTC] PHP Warning:  Undefined global variable $_SESSION in /home/kkjlozhk/public_html/admin/koneksi.php on line 3
+[30-Jun-2024 17:19:56 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/kkjlozhk/public_html/admin/print_invoice.php:1) in /home/kkjlozhk/public_html/admin/koneksi.php on line 9
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 78
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 79
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 81
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 111
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 112
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 114
+[30-Jun-2024 18:26:52 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 126
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 78
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 79
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 81
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 111
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 112
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 114
+[30-Jun-2024 20:27:41 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 126
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 78
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 79
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 81
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 111
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 112
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "role" in /home/kkjlozhk/public_html/admin/header.php on line 114
+[30-Jun-2024 20:27:43 UTC] PHP Warning:  Undefined array key "username" in /home/kkjlozhk/public_html/admin/header.php on line 126

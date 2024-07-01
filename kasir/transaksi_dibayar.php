@@ -3,10 +3,10 @@ $title = 'Pembayaran';
 require 'koneksi.php';
 require 'header.php';
 
-$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar, transaksi.pajak, transaksi.biaya_tambahan FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
+$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, detail_transaksi.total_bayar, transaksi.pajak, transaksi.biaya_tambahan, transaksi.diskon FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
 $data = mysqli_fetch_assoc($query);
 
-$total_pembayaran = $data['total_harga'] + $data['pajak'] + $data['biaya_tambahan'];
+$total_pembayaran = ($data['total_harga'] + $data['pajak'] + $data['biaya_tambahan']) * (1 - $data['diskon']);
 
 ?>
 <div class="content">

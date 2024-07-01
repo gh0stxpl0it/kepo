@@ -15,17 +15,48 @@ $jumlah_pelanggan = mysqli_fetch_assoc($query2);
 $query3 = mysqli_query($conn, "SELECT COUNT(id_outlet) as jumlah_outlet FROM outlet");
 $jumlah_outlet = mysqli_fetch_assoc($query3);
 
-$query4 = mysqli_query($conn, "SELECT SUM(total_bayar) as total_penghasilan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar'");
+$query4 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as total_penghasilan 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar'");
 $total_penghasilan = mysqli_fetch_assoc($query4);
 
-$query5 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_tahun FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND YEAR(tgl_pembayaran) = YEAR(NOW())");
+$query5 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_tahun 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND YEAR(transaksi.tgl_pembayaran) = YEAR(NOW())");
 $penghasilan_tahun = mysqli_fetch_assoc($query5);
 
-$query6 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_bulan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND MONTH(tgl_pembayaran) = MONTH(NOW())");
+$query6 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_bulan 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND MONTH(transaksi.tgl_pembayaran) = MONTH(NOW())");
 $penghasilan_bulan = mysqli_fetch_assoc($query6);
 
-$query7 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_minggu FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND WEEK(tgl_pembayaran) = WEEK(NOW())");
+$query7 = mysqli_query($conn, "SELECT 
+    SUM((detail_transaksi.total_harga + transaksi.biaya_tambahan + transaksi.pajak) * (1 - transaksi.diskon)) as penghasilan_minggu 
+    FROM detail_transaksi 
+    INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi 
+    WHERE transaksi.status_bayar = 'dibayar' AND WEEK(transaksi.tgl_pembayaran) = WEEK(NOW())");
 $penghasilan_minggu = mysqli_fetch_assoc($query7);
+
+$bulanIndonesia = array(
+    1 => 'Januari',
+    2 => 'Februari',
+    3 => 'Maret',
+    4 => 'April',
+    5 => 'Mei',
+    6 => 'Juni',
+    7 => 'Juli',
+    8 => 'Agustus',
+    9 => 'September',
+    10 => 'Oktober',
+    11 => 'November',
+    12 => 'Desember'
+);
 ?>
 
 <div class="panel-header bg-secondary-gradient">
@@ -136,7 +167,7 @@ $penghasilan_minggu = mysqli_fetch_assoc($query7);
             <div class="card card-dark bg-secondary-gradient">
                 <div class="card-body bubble-shadow">
                     <h1><?= 'Rp ' . number_format($penghasilan_bulan['penghasilan_bulan']); ?></h1>
-                    <h5 class="op-8">Penghasilan Bulan <?= strftime('%B'); ?></h5>
+                    <h5 class="op-8">Penghasilan Bulan <?= $bulanIndonesia[date('n')]; ?></h5>
                     <div class="pull-right">
                         <h3 class="fw-bold op-8">
                             <hr>
@@ -159,7 +190,6 @@ $penghasilan_minggu = mysqli_fetch_assoc($query7);
             </div>
         </div>
     </div>
-
 
 </div>
 </div>

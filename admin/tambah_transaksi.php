@@ -132,7 +132,7 @@ require 'header.php';
                                 <input type="text" name="biaya_tambahan" class="form-control form-control" id="defaultInput" value="0">
                             </div>
                             <div class="form-group">
-                                <label for="largeInput">Diskon (%)</label>
+                                <label for="largeInput">Diskon ( Menggunakan Format Seperti Contoh: 1% = 0.01, dan untuk 10% = 0.1 )</label>
                                 <input type="text" name="diskon" class="form-control form-control" id="defaultInput" value="0">
                             </div>
                             <div class="form-group">
